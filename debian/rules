@@ -1,4 +1,101 @@
 #!/usr/bin/make -f
+#export DH_VERBOSE = 1
 
-%:
-	dh $@
+VER := $(shell dpkg-query -W binutils-source | cut -f2 | cut -d'-' -f1 | cut -d'.' -f1-3)
+DVER := $(shell dpkg-query -W binutils-source | cut -f2)
+DEB_NAME_ACT     := $(shell dpkg-parsechangelog| sed -n 's/-*//; s/^Source: \(.*\)/\1/p')
+DEB_SVER_ACT     := $(shell dpkg-parsechangelog| sed -n 's/-*//; s/+b.*//g; s/^Version: \(.*\)/\1/p')
+DEB_CVER_ACT	 := $(shell dpkg-parsechangelog |egrep ^Version:| sed 's/.*c[ros]*\(.*\)/\1/')
+CROSS_EXT	 := cross$(DEB_CVER_ACT)
+DVER_T = $(DVER)$(CROSS_EXT)
+ARCHIVE_VER := $(shell apt-cache show --no-all-versions binutils-mipsisa64r6-linux-gnuabi64 2>/dev/null| awk '/^Version:/ { print $$2 }')
+ifeq (,$(ARCHIVE_VER))
+  ARCHIVE_VER := 0
+endif
+ifeq (error,$(shell dpkg --compare-versions $(ARCHIVE_VER) ge $(DVER_T) && echo "error"))
+  $(warning Version in Debian Archive >= Version in debian/changelog)
+endif
+
+HOST_ARCH = amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+
+ARCHS = mips mipsel mips64 mips64el mipsn32 mipsn32el mipsr6 mipsr6el mipsn32r6 mipsn32r6el mips64r6 mips64r6el
+ARCHSF = $(filter-out $(DEB_HOST_ARCH), $(ARCHS))
+ARCHS_MAP = $(foreach a,$(ARCHS),$(shell echo -n "$(a)="; dpkg-architecture -f -a$(a) -qDEB_HOST_GNU_TYPE))
+
+TRIPLE = $(foreach a,$(ARCHS),$(shell dpkg-architecture -f -a$(a) -qDEB_HOST_GNU_TYPE))
+
+stamp-dir/control: stamp-dir/prepare
+	cat debian/control.in > debian/control.tmp
+	echo $(ARCHS_MAP) > stamp-dir/archmap.tmp
+	echo $(HOST_ARCH) >> stamp-dir/archmap.tmp
+	cp binutils-$(VER)/debian/control stamp-dir/fullc.tmp
+	python3 debian/binary-control.py >> debian/control.tmp
+	sed -i 's/binutils-common (= [^ ]*)/binutils-common/g' debian/control.tmp
+	sed -i 's/binutils-doc (= [^ ]*)/binutils-doc/g' debian/control.tmp
+	mv debian/control.tmp debian/control
+	touch $@
+
+clean:
+	rm -rf binutils* libbinutils* stamp-dir/* debian/control.tmp debian/files *.deb
+
+stamp-dir/prepare:
+	rm -rf binutils* libbinutils*
+	rm -f debian/files
+	tar xf /usr/src/binutils/binutils-$(VER).tar.xz
+	cp -r /usr/src/binutils/debian binutils-$(VER)/
+	cp -r /usr/src/binutils/patches binutils-$(VER)/debian
+	sed -i '/.*ps aux.*/d' binutils-$(VER)/debian/rules
+	set -e; \
+	cd binutils-$(VER) ;\
+	  for i in `ls $(CURDIR)/debian/patches/binutils/*.patch 2>/dev/null`; do \
+	    patch -p1 < $$i; \
+	  done; \
+	  for a in $(ARCHS);do \
+	    tmp=`echo $(HOST_ARCH) | sed "s/ $$a / /g" | sed "s/ $$a$$//g"`; \
+	    sed -i "s/^HOST_ARCHS_$$a = .*/HOST_ARCHS_$$a = $$tmp/g" debian/rules; \
+	  done
+	sed -i '1 s/binutils /binutils-mipsen /g' binutils-$(VER)/debian/changelog
+	sed -i '1 s/Source: binutils/Source: binutils-mipsen/g' binutils-$(VER)/debian/control.in
+	env -i CROSS_ARCHS="$(ARCHSF)" PATH="/usr/bin:/bin" make -C binutils-$(VER) -f debian/rules stamps/control ## don't try to make it simpler ....
+	touch $@
+
+stamp-dir/build: stamp-dir/prepare
+	cd binutils-$(VER); \
+		DEB_BUILD_OPTIONS="nomult nohppa $(filter nocheck parallel=%,$(DEB_BUILD_OPTIONS))" CROSS_ARCHS="$(ARCHSF)" dpkg-buildpackage -B -d -uc -us -a$(DEB_HOST_ARCH)
+	touch $@
+
+$(ARCHSF): build-arch
+	gnu_type=`dpkg-architecture -f -a$@ -qDEB_HOST_GNU_TYPE`; \
+	for type in $$gnu_type $${gnu_type}-dbg; do \
+	  pkg="binutils-$${type}_$(DVER)_$(DEB_HOST_ARCH).deb"; \
+	  pkg_d=binutils-$${type}_$(DVER_T)_$(DEB_HOST_ARCH); \
+	  rm -rf $$pkg_d; \
+	  echo dpkg-deb -R $$pkg $$pkg_d; \
+	  dpkg-deb -R $$pkg $$pkg_d; \
+	  sed -i 's/Source: binutils.*/Source: $(DEB_NAME_ACT) ($(DEB_SVER_ACT))/g' $$pkg_d/DEBIAN/control; \
+	  sed -i 's/Version: .*/Version: $(DVER_T)/g' $$pkg_d/DEBIAN/control; \
+	  sed -i '/^Built-Using/! s/ (= $(DVER))/ (>= $(DVER))/g' $$pkg_d/DEBIAN/control; \
+	  if [ -f "$$pkg_d/usr/share/doc/binutils-$${type}/changelog.Debian.gz" ]; then \
+	    mv -f $$pkg_d/usr/share/doc/binutils-$${type}/changelog.Debian.gz $$pkg_d/usr/share/doc/binutils-$${type}/changelog.Debian.binutils.gz; \
+	    gzip -c9n debian/changelog > $$pkg_d/usr/share/doc/binutils-$${type}/changelog.Debian.gz; \
+	    chmod 0644 $$pkg_d/usr/share/doc/binutils-$${type}/changelog.Debian.gz; \
+	    rm -f $$pkg_d/DEBIAN/md5sums; \
+	    (cd $$pkg_d && find usr -type f | LC_ALL=C sort | xargs -r md5sum >>DEBIAN/md5sums); \
+	  fi; \
+	  dpkg-deb -b $$pkg_d ../$${pkg_d}.deb; \
+	  echo -n "$${pkg_d}.deb " >> debian/files; \
+	  dpkg-deb -I ../$${pkg_d}.deb | grep Section  | cut -d ' ' -f 3 | tr "\n" ' ' >>debian/files; \
+	  dpkg-deb -I ../$${pkg_d}.deb | grep Priority | cut -d ' ' -f 3 | tr -d "\n" >>debian/files; \
+	  echo "" >> debian/files; \
+	done
+
+build-arch: stamp-dir/build
+build-indep:
+build: build-arch build-indep
+
+binary-arch: $(ARCHSF) 
+binary-indep:
+
+binary: binary-arch binary-indep
+
+.PHONY: binary binary-arch binary-indep clean checkroot $(ARCHS) build-arch build-indep

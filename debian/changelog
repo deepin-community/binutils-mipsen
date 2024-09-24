@@ -1,5 +1,256 @@
-template-repository (1.0-1) unstable; urgency=medium
+binutils-mipsen (12+c1+deepin1) unstable; urgency=medium
 
-  * Initial release
+  * Drop dejagnu dep.
+  * FIXME: For some reason, Binutils would always run the (broken on MIPS)
+    testsuites, causing builds to fail. Since we have locked our key
+    component versions, there is little hope for a fix in the short term.
+    Let's try, I guess.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Mingcong Bai <baimingcong@uniontech.com>  Sun, 29 Sep 2024 19:22:39 +0800
+
+binutils-mipsen (12+c1) unstable; urgency=medium
+
+  * Add default-jdk-headless to build-dep. (Closes: #1081858)
+  * Rebuild with binutils-source 2.43.1-4.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 18 Sep 2024 13:31:42 +0800
+
+binutils-mipsen (11+c2) unstable; urgency=medium
+
+  * Rebuild with binutils 2.42.90.20240720-2.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 31 Jul 2024 20:53:09 +0800
+
+binutils-mipsen (11+c1) unstable; urgency=medium
+
+  * Rewrite debian/control generation with Python.
+  * Build with binutils 2.42-2.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 27 May 2024 14:37:35 +0800
+
+binutils-mipsen (10+c5) unstable; urgency=medium
+
+  * Build with binutils 2.41-4.
+
+ -- YunQiang Su <syq@debian.org>  Tue, 15 Aug 2023 15:03:34 +0800
+
+binutils-mipsen (10+c4) unstable; urgency=medium
+
+  * Build with binutils 2.40.90.20230705-1.
+    Closes: #1040621.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 10 Jul 2023 11:21:54 +0800
+
+binutils-mipsen (10+c3) unstable; urgency=medium
+
+  * Build with binutils 2.40.50.20230611-2.
+
+ -- YunQiang Su <syq@debian.org>  Tue, 20 Jun 2023 15:49:36 +0800
+
+binutils-mipsen (10+c2) unstable; urgency=medium
+
+  * Build with binutils 2.40-2. 
+
+ -- YunQiang Su <syq@debian.org>  Mon, 06 Feb 2023 15:05:05 +0800
+
+binutils-mipsen (10+c1) unstable; urgency=medium
+
+  * Rebuild with binutils 2.39.90.20230104-1.
+  * Sync build-dep, build-conflicts from binutils (Closes: #1026632).
+
+ -- YunQiang Su <syq@debian.org>  Mon, 09 Jan 2023 13:12:12 +0800
+
+binutils-mipsen (9+c4) unstable; urgency=medium
+
+  * Rebuild with binutils 2.39-8.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 05 Dec 2022 15:35:36 +0800
+
+binutils-mipsen (9+c3) unstable; urgency=medium
+
+  * Rebuild with binutils 2.39-7.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 12 Oct 2022 14:42:17 +0800
+
+binutils-mipsen (9+c2) unstable; urgency=medium
+
+  * Rebuild with binutils 2.38-1.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 16 Feb 2022 13:00:37 +0000
+
+binutils-mipsen (9+c1) unstable; urgency=medium
+
+  * Build-Depends on zlib1g-dev to fix cross buildable (Closes: #1001511)
+  * Build with binutils 2.37-10.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 13 Dec 2021 13:02:41 +0000
+
+binutils-mipsen (8+c4) unstable; urgency=medium
+
+  * Upload to unstable
+  * Build with binutils 2.37-4.
+
+ -- YunQiang Su <syq@debian.org>  Thu, 19 Aug 2021 09:22:41 +0800
+
+binutils-mipsen (8+c3) experimental; urgency=medium
+
+  * Fix repack version replace due to source pkgname changes.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 26 Apr 2021 11:35:02 +0800
+
+binutils-mipsen (8+c2) experimental; urgency=medium
+
+  * sed -i binutils/control.in to bintuils-mipsen.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 25 Apr 2021 18:12:49 +0800
+
+binutils-mipsen (8+c1) experimental; urgency=medium
+
+  * Build with binutils 2.36.1-6.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 25 Apr 2021 16:17:49 +0800
+
+binutils-mipsen (7+c2) unstable; urgency=medium
+
+  * Add debugedit to build-dep . (Closes: #986508)
+  * Build with binutils 2.35.2-2.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 07 Apr 2021 18:03:21 +0800
+
+binutils-mipsen (7+c1) unstable; urgency=medium
+
+  * Build with binutils 2.35.1-6.
+
+  [Helmut Grohne]
+  * Fix FTCBFS: (Closes: #977281)
+    + Explicitly forward host architecture to dpkg-buildpackage.
+    + Missing Build-Depends: zlib1g-dev.
+  * Forward nocheck and parallel build options.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 28 Dec 2020 11:21:56 +0800
+
+binutils-mipsen (6+c3) unstable; urgency=medium
+
+  * Build with binutils 2.35.1-4.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 13 Dec 2020 15:32:25 +0800
+
+binutils-mipsen (6+c2) unstable; urgency=medium
+
+  * Build with 2.35.1-2.
+
+ -- YunQiang Su <syq@debian.org>  Wed, 04 Nov 2020 09:13:39 +0800
+
+binutils-mipsen (6+c1) unstable; urgency=medium
+
+  * Build with 2.35-1, with enable llsc workaround.
+  * enable mipsel and mips64el cross targets for arm64 (Closes: #938979)
+  * merge patch from Ubuntu 5+c6ubuntu1 to fix control generation
+    on Ubuntu.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 22 Mar 2020 10:12:18 +0800
+
+binutils-mipsen (5+c6) unstable; urgency=medium
+
+  * Build with 2.34-5.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 22 Mar 2020 10:12:18 +0800
+
+binutils-mipsen (5+c5) unstable; urgency=medium
+
+  * Build with 2.34-2.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 03 Feb 2020 19:04:13 +0800
+
+binutils-mipsen (5+c4) unstable; urgency=medium
+
+  * Build with 2.33.50.20200115-2, which add back
+    mips64-default-n64.diff
+
+ -- YunQiang Su <syq@debian.org>  Sat, 18 Jan 2020 22:33:00 +0800
+
+binutils-mipsen (5+c3) unstable; urgency=medium
+
+  * Build with new binutils (2.33.50.20200114-1)
+
+ -- YunQiang Su <syq@debian.org>  Wed, 15 Jan 2020 20:32:12 +0800
+
+binutils-mipsen (5+c2) unstable; urgency=medium
+
+  * Create stamp-dir in git and keep it with .placeholder file.
+
+ -- YunQiang Su <syq@debian.org>  Fri, 10 Jan 2020 22:33:30 +0800
+
+binutils-mipsen (5+c1) unstable; urgency=medium
+
+  * Build with binutils 2.33.50.20200107-1.
+  * Build Host on mips64el mipsel mips64r6el arm64 ppc64el.
+
+ -- YunQiang Su <syq@debian.org>  Tue, 07 Jan 2020 14:39:42 +0800
+
+binutils-mipsen (4+c6) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Build with binutils 2.33.1-5.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 08 Dec 2019 14:02:56 +0100
+
+binutils-mipsen (4+c5) unstable; urgency=medium
+
+  * Build with binutils 2.33-2.
+
+ -- YunQiang Su <syq@debian.org>  Tue, 15 Oct 2019 11:02:59 +0800
+
+binutils-mipsen (4~c4) unstable; urgency=medium
+
+  * Build using binutils 2.32.51.20190909-1.
+  * Refresh the patch to binutils/debian/control.
+
+ -- YunQiang Su <syq@debian.org>  Thu, 12 Sep 2019 17:48:39 +0800
+
+binutils-mipsen (4~c3) unstable; urgency=medium
+
+  * Build using binutils 2.32.51.20190821-2.
+  * Build mips/mipsel/mips64el, since they have been removed from
+    binutils packages.
+
+ -- YunQiang Su <syq@debian.org>  Thu, 05 Sep 2019 20:12:18 +0800
+
+binutils-mipsen (3~c2) unstable; urgency=medium
+
+  * Build using binutils 2.32.51.20190813-1
+  * Fix Source version: filter-out binnmu version (Closes: #934593).
+
+ -- YunQiang Su <syq@debian.org>  Thu, 15 Aug 2019 09:21:15 +0800
+
+binutils-mipsen (3~c1) unstable; urgency=medium
+
+  * Build using binutils 2.32.51.20190707-1.
+  * Workaround binutils strip_packages for host even without
+    host enable by default.
+
+ -- YunQiang Su <syq@debian.org>  Mon, 22 Jul 2019 15:20:12 +0800
+
+binutils-mipsen (2~c3) unstable; urgency=medium
+
+  * Bump standards version.
+  * Build using binutils 2.31.1-14.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 25 Feb 2019 10:32:19 +0100
+
+binutils-mipsen (2~c2) unstable; urgency=medium
+
+  * Don't build for arm64, ppc64el, mips64el.
+  * Not use nocheck when build.
+  * Use toolchain-team in salsa.
+  * Built-Using use strict dependencies.
+  * Warning instead of error when rebuild with the same
+   version with archive. (Closes: #921682)
+
+ -- YunQiang Su <syq@debian.org>  Sun, 10 Feb 2019 17:32:27 +0800
+
+binutils-mipsen (1~c1) unstable; urgency=medium
+
+  * Initial Release. (Closes: #905466)
+
+ -- YunQiang Su <syq@debian.org>  Fri, 01 Feb 2019 20:06:58 +0800
