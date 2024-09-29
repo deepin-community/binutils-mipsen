@@ -1,0 +1,18 @@
+diff --git a/debian/rules b/debian/rules
+index 55929120..45e2f0f2 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -121,13 +121,9 @@ NATIVE_ARCHS += alpha hppa ia64 m68k powerpc ppc64 \
+ NATIVE_ARCHS += hurd-i386 kfreebsd-amd64 kfreebsd-i386
+ #NATIVE_ARCHS += nios2 or1k s390 sparc
+ 
+-# don't generate the control file entries for native packages which are never
+-# built. Only valid for Ubuntu. The autopkg testers get confused otherwise
+-ifneq ($(distribution)-$(CROSS_ARCHS),Ubuntu-)
+   NATIVE_ARCHS += mips mipsel mips64 mips64el
+   NATIVE_ARCHS += mipsn32 mipsn32el
+   NATIVE_ARCHS += mipsn32r6 mipsn32r6el mipsr6 mipsr6el mips64r6 mips64r6el
+-endif
+ 
+ with_cross = yes
+ ifeq ($(DEB_SOURCE),binutils)

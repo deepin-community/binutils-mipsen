@@ -1,15 +1,339 @@
-Source: template-repository
-Section: unknown
+Source: binutils-mipsen
+Section: devel
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: YunQiang Su <syq@debian.org>
+Build-Depends: autoconf (>= 2.64), dpkg-dev (>= 1.19.0.5),
+ bison, flex, gettext, texinfo, quilt, chrpath, dwz, debugedit (>= 4.16),
+ python3:any, file, xz-utils, lsb-release, zlib1g-dev, procps, help2man,
+ libjansson-dev, pkg-config, libzstd-dev, default-jdk-headless,
+ binutils-source (>= 2.41)
+Build-Conflicts: libelf-dev
+Rules-Requires-Root: no
+Standards-Version: 4.5.1
+Vcs-Browser: https://salsa.debian.org/toolchain-team/binutils-mipsen
+Vcs-Git: https://salsa.debian.org/toolchain-team/binutils-mipsen.git
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: binutils-mips-linux-gnu
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mips-linux-gnu target
+ This package provides GNU assembler, linker and binary utilities
+ for the mips-linux-gnu target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mips-linux-gnu and mips-linux-gnu is not your native platform.
+
+Package: binutils-mips-linux-gnu-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mips-linux-gnu (= ${binary:Version})
+Description: GNU binary utilities, for mips-linux-gnu target (debug symbols)
+ This package provides debug symbols for binutils-mips-linux-gnu.
+
+Package: binutils-mipsel-linux-gnu
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsel-linux-gnu target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsel-linux-gnu target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsel-linux-gnu and mipsel-linux-gnu is not your native platform.
+
+Package: binutils-mipsel-linux-gnu-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsel-linux-gnu (= ${binary:Version})
+Description: GNU binary utilities, for mipsel-linux-gnu target (debug symbols)
+ This package provides debug symbols for binutils-mipsel-linux-gnu.
+
+Package: binutils-mips64-linux-gnuabi64
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mips64-linux-gnuabi64 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mips64-linux-gnuabi64 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mips64-linux-gnuabi64 and mips64-linux-gnuabi64 is not your native platform.
+
+Package: binutils-mips64-linux-gnuabi64-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mips64-linux-gnuabi64 (= ${binary:Version})
+Description: GNU binary utilities, for mips64-linux-gnuabi64 target (debug symbols)
+ This package provides debug symbols for binutils-mips64-linux-gnuabi64.
+
+Package: binutils-mips64el-linux-gnuabi64
+Priority: optional
+Architecture: amd64 i386 x32 mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mips64el-linux-gnuabi64 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mips64el-linux-gnuabi64 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mips64el-linux-gnuabi64 and mips64el-linux-gnuabi64 is not your native platform.
+
+Package: binutils-mips64el-linux-gnuabi64-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mips64el-linux-gnuabi64 (= ${binary:Version})
+Description: GNU binary utilities, for mips64el-linux-gnuabi64 target (debug symbols)
+ This package provides debug symbols for binutils-mips64el-linux-gnuabi64.
+
+Package: binutils-mips64-linux-gnuabin32
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mips64-linux-gnuabin32 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mips64-linux-gnuabin32 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mips64-linux-gnuabin32 and mips64-linux-gnuabin32 is not your native platform.
+
+Package: binutils-mips64-linux-gnuabin32-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mips64-linux-gnuabin32 (= ${binary:Version})
+Description: GNU binary utilities, for mips64-linux-gnuabin32 target (debug symbols)
+ This package provides debug symbols for binutils-mips64-linux-gnuabin32.
+
+Package: binutils-mips64el-linux-gnuabin32
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mips64el-linux-gnuabin32 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mips64el-linux-gnuabin32 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mips64el-linux-gnuabin32 and mips64el-linux-gnuabin32 is not your native platform.
+
+Package: binutils-mips64el-linux-gnuabin32-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mips64el-linux-gnuabin32 (= ${binary:Version})
+Description: GNU binary utilities, for mips64el-linux-gnuabin32 target (debug symbols)
+ This package provides debug symbols for binutils-mips64el-linux-gnuabin32.
+
+Package: binutils-mipsisa32r6-linux-gnu
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa32r6-linux-gnu target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa32r6-linux-gnu target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa32r6-linux-gnu and mipsisa32r6-linux-gnu is not your native platform.
+
+Package: binutils-mipsisa32r6-linux-gnu-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa32r6-linux-gnu (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa32r6-linux-gnu target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa32r6-linux-gnu.
+
+Package: binutils-mipsisa32r6el-linux-gnu
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa32r6el-linux-gnu target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa32r6el-linux-gnu target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa32r6el-linux-gnu and mipsisa32r6el-linux-gnu is not your native platform.
+
+Package: binutils-mipsisa32r6el-linux-gnu-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa32r6el-linux-gnu (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa32r6el-linux-gnu target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa32r6el-linux-gnu.
+
+Package: binutils-mipsisa64r6-linux-gnuabin32
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa64r6-linux-gnuabin32 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa64r6-linux-gnuabin32 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa64r6-linux-gnuabin32 and mipsisa64r6-linux-gnuabin32 is not your native platform.
+
+Package: binutils-mipsisa64r6-linux-gnuabin32-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa64r6-linux-gnuabin32 (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa64r6-linux-gnuabin32 target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa64r6-linux-gnuabin32.
+
+Package: binutils-mipsisa64r6el-linux-gnuabin32
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa64r6el-linux-gnuabin32 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa64r6el-linux-gnuabin32 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa64r6el-linux-gnuabin32 and mipsisa64r6el-linux-gnuabin32 is not your native platform.
+
+Package: binutils-mipsisa64r6el-linux-gnuabin32-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa64r6el-linux-gnuabin32 (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa64r6el-linux-gnuabin32 target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa64r6el-linux-gnuabin32.
+
+Package: binutils-mipsisa64r6-linux-gnuabi64
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa64r6-linux-gnuabi64 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa64r6-linux-gnuabi64 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa64r6-linux-gnuabi64 and mipsisa64r6-linux-gnuabi64 is not your native platform.
+
+Package: binutils-mipsisa64r6-linux-gnuabi64-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel mips64r6el arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa64r6-linux-gnuabi64 (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa64r6-linux-gnuabi64 target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa64r6-linux-gnuabi64.
+
+Package: binutils-mipsisa64r6el-linux-gnuabi64
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel arm64 ppc64el
+Multi-Arch: allowed
+Depends: binutils-common,
+  ${shlibs:Depends}, ${extraDepends}
+Suggests: binutils-doc
+Provides: 
+Breaks: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Replaces: binutils (<< 2.29-6), binutils-dev (<< 2.38.50.20220609-2)
+Built-Using: ${Built-Using}
+Description: GNU binary utilities, for mipsisa64r6el-linux-gnuabi64 target
+ This package provides GNU assembler, linker and binary utilities
+ for the mipsisa64r6el-linux-gnuabi64 target.
+ .
+ You don't need this package unless you plan to cross-compile programs
+ for mipsisa64r6el-linux-gnuabi64 and mipsisa64r6el-linux-gnuabi64 is not your native platform.
+
+Package: binutils-mipsisa64r6el-linux-gnuabi64-dbg
+Section: debug
+Priority: optional
+Architecture: amd64 i386 x32 mips64el mipsel arm64 ppc64el
+Multi-Arch: foreign
+Depends: binutils-mipsisa64r6el-linux-gnuabi64 (= ${binary:Version})
+Description: GNU binary utilities, for mipsisa64r6el-linux-gnuabi64 target (debug symbols)
+ This package provides debug symbols for binutils-mipsisa64r6el-linux-gnuabi64.
+
